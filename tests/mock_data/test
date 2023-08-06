@@ -1,0 +1,4 @@
+Folder(title='/', connections=[],
+    folders=[Folder(title='test', connections=[],
+        folders=[Folder(title='a', connections=[], folders=[])]),
+Folder(title='test', connections=[], folders=[Folder(title='b', connections=[], folders=[])])])

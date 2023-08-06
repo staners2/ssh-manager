@@ -1,0 +1,15 @@
+
+# Folder: test/a
+Host runner-01
+    Hostname 192.192.192.192
+    User user
+    Preferredauthentications publickey
+    IdentityFile ~/.ssh/private_keys/admin
+
+# Folder: test/b
+# Description: For connect to home
+Host runner-02 runner-2
+    Hostname 192.192.192.192
+    User user
+    Preferredauthentications publickey
+    IdentityFile ~/.ssh/private_keys/admin
