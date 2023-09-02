@@ -1,0 +1,97 @@
+### Docker swarm master node
+Host docker-master
+    HostName 192.168.250.1
+    User user
+    IdentityFile ~/.ssh/macbook_air_rsa
+    Port 50003
+
+### Docker swarm node
+Host docker-node
+    HostName 192.168.250.2
+    User user
+    IdentityFile ~/.ssh/macbook_air_rsa
+    Port 50004
+
+### Database master node
+Host master
+    HostName 192.168.250.3
+    User root  # user
+    IdentityFile ~/.ssh/root_pgpool # ~/.ssh/macbook_air_rsa
+    Port 50005
+
+### Database slave node
+Host slave
+    HostName 192.168.250.4
+    User root  # user
+    IdentityFile ~/.ssh/root_pgpool # ~/.ssh/macbook_air_rsa
+    Port 50006
+
+### Database slave-1 node
+Host slave-1
+    HostName 192.168.250.5
+    User root  # user
+    IdentityFile ~/.ssh/root_pgpool # ~/.ssh/macbook_air_rsa
+    Port 50010
+
+### patroni1 node
+Host patroni1
+    HostName 192.168.250.6
+    User user
+    IdentityFile ~/.ssh/patroni-rsa
+    Port 22
+
+### patroni2 node
+Host patroni2
+    HostName 192.168.250.7
+    User user
+    IdentityFile ~/.ssh/patroni-rsa
+    Port 22
+
+### patroni3 node
+Host patroni3
+    HostName 192.168.250.8
+    User user
+    IdentityFile ~/.ssh/patroni-rsa
+    Port 22
+
+### PgPool-1 node
+Host pgpool-1
+    HostName 192.168.250.9
+    User root 
+    IdentityFile ~/.ssh/root_pgpool # ~/.ssh/macbook_air_rsa
+    Port 50007
+
+### PgPool-2 node
+Host pgpool-2
+    HostName 192.168.250.10
+    User root  # user
+    IdentityFile ~/.ssh/root_pgpool # ~/.ssh/macbook_air_rsa
+    Port 50008
+
+### PgPool-3 node
+Host pgpool-3
+    HostName 192.168.250.11
+    User root  # user
+    IdentityFile ~/.ssh/root_pgpool # ~/.ssh/macbook_air_rsa
+    Port 50009
+
+### Home k8s master node
+Host kube-master
+    HostName 192.168.250.12
+    User staners2
+    IdentityFile ~/.ssh/staners2_ubuntu_id_rsa
+    Port 50000
+
+### Home k8s node-1 virtual machine
+Host kube-node-1
+    HostName 192.168.250.13
+    User staners2
+    IdentityFile ~/.ssh/macbook_air_rsa
+    Port 50001
+
+### Home k8s node-2 virtual machine
+Host kube-node-2
+    HostName 192.168.250.14
+    User staners2
+    IdentityFile ~/.ssh/macbook_air_rsa
+    Port 50002

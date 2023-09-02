@@ -19,15 +19,14 @@ class Folder:
 
         for folder in copy_folder.folders:
             if len(folder.folders) > 0:
-                print(f"Найдены folders: {folder.title}")
                 folder.find_in_folder(pattern)
             if pattern in folder.title:
                 __folders__.append(folder)
                 found_recursive_item_in_folders = True
             else:
-                found_recursive_item_in_folders = copy_folder.__find_connection_in_folder__(folder, pattern)
+                found_recursive_item_in_folders = copy_folder.__find_connection_in_folder(folder, pattern)
 
-        found_item_in_folder = copy_folder.__find_connection_in_folder__(copy_folder, pattern)
+        found_item_in_folder = copy_folder.__find_connection_in_folder(copy_folder, pattern)
 
         copy_folder.folders = __folders__
 
@@ -36,7 +35,7 @@ class Folder:
         else:
             return None
 
-    def __find_connection_in_folder__(self, folder, pattern: str) -> bool:
+    def __find_connection_in_folder(self, folder, pattern: str) -> bool:
         found_item = False
         __connections__ = []
         for conn in folder.connections:
@@ -48,5 +47,20 @@ class Folder:
 
         return found_item
 
+    def get_folder(self, title):
+        for item in self.folders:
+            if item.title == title:
+                return item
+
+        return None
+
     def get_title(self):
-        return self.title.split("/")[-1]
+        return self.title
+
+    @staticmethod
+    def show_tree(self, child = None, indent=0):
+        print(" " * indent + "- " + self.title)
+        for child in self.folders:
+            self.show_tree(child, indent + 2)
+        for item in self.connections:
+            print(" " * (indent + 4) + "- " + ''.join(item.host))

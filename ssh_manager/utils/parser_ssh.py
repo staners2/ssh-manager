@@ -19,6 +19,7 @@ class ParserSSH():
     def __parse_config(self, file_obj):
         context = {"config": {}}
         create_new_context = True
+        exist_folder_tag = False
         for line in file_obj:
             line = line.strip()
             # Skip blanks, comments
@@ -34,6 +35,7 @@ class ParserSSH():
                 if create_new_context:
                     self._config.append(context)
                     context = {"config": {}}
+                exist_folder_tag = True
                 create_new_context = False
 
                 folder = None
@@ -61,13 +63,19 @@ class ParserSSH():
             # Host keyword triggers switch to new block/context
             if key in ("host", "match"):
                 if key == "host":
+                    if not exist_folder_tag:
+                        self._config.append(context)
+                        context = {"config": {}}
+                        context["folder"] = "default"
+                        context["description"] = None
                     context["host"] = self._get_hosts(value)
                 else:
                     context["matches"] = self._get_matches(value)
             else:
                 if value.startswith('"') and value.endswith('"'):
                     value = value[1:-1]
-
+                # Remove comments in line with value field
+                value = value.split("#")[0]
                 if key in ["identityfile", "localforward", "remoteforward"]:
                     if key in context["config"]:
                         context["config"][key].append(value)
