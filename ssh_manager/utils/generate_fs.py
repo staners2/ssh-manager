@@ -1,5 +1,5 @@
 from ssh_manager.models.connection import Connection
-from ssh_manager.models.file_system import FileSystem, Node
+from ssh_manager.models.file_system import FileSystem
 from ssh_manager.models.folder import Folder
 
 
@@ -22,12 +22,16 @@ def generate_fs(config: list):
                                 proxy_jump=proxy_jump)
         connections.append(connection)
 
-    head_folder = Folder(title="/")
+    root_folder = Folder(title="/")
 
+    # Default folder for those withou tags 'Folder'
+    # deafult_folder = Folder(title="default")
+    # root_folder.folders.append(deafult_folder)
 
     for conn in connections:
-        folder_name_items = conn.full_path_folder.split("/")
-        current_folder = head_folder
+
+        folder_name_items = conn.full_path_folder.split("/") if conn.full_path_folder is not None else []
+        current_folder = root_folder
         for folder_name in folder_name_items:
             if not [folder for folder in current_folder.folders if folder_name in folder.title]:
                 f = Folder(title=folder_name)
@@ -38,42 +42,20 @@ def generate_fs(config: list):
                 f = [folder for folder in current_folder.folders if folder_name in folder.title][0]
                 current_folder = f
                 continue
-        print(folder_name_items)
-        if folder_name_items is None:
-            print("sdfsd")
-            # Default folder for those withou tags 'Folder'
-            f = Folder(title="default")
-            current_folder.folders.append(f)
-            continue
 
-    print(head_folder)
+    for conn in connections:
+        folder_name_items = conn.full_path_folder.split("/")
+        current_folder = root_folder
+        for folder_name in folder_name_items:
+            current_folder = root_folder.get_folder(folder_name)
 
-    def show(folder, indent=0):
-        print(" " * indent + "- " + folder.title)
-        for child in folder.folders:
-            show(child, indent + 2)
+        print(f"{current_folder.title} = {conn.host}")
+        current_folder.connections.append(conn)
 
-    show(head_folder)
+    fs.folders = root_folder
+    return fs
 
-#             test
-#          /   |   \
-#         a  conn1  b
-#        /\
-#    conn  conn2
 
-def add_item(header_folder, path):
-    folder_name_items = path.split("/")
-    current = header_folder
-    for part in folder_name_items:
-        if part not in current.title:
-            current.folders = Folder("")
-
-    # parts = path.split("/")
-    # current = root
-    # for part in parts:
-    #     if part not in current:
-    #         current[part] = {}
-    #     current = current[part]
 
     # test/folder/A
     # test/folder/B
